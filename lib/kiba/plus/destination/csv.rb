@@ -12,7 +12,8 @@ module Kiba::Plus::Destination
         :row_sep,
         :col_sep,
         :force_quotes,
-        :quote_char
+        :quote_char,
+        :headers
       )
       @csv = CSV.open(output_file, mode, {
         :col_sep => col_sep,
@@ -20,6 +21,8 @@ module Kiba::Plus::Destination
         :force_quotes => force_quotes,
         :row_sep => row_sep
       })
+
+      @csv << headers if headers
     end
 
     def write(row)
@@ -56,5 +59,8 @@ module Kiba::Plus::Destination
       options.fetch(:quote_char, '"')
     end
 
+    def headers
+      options.fetch(:headers, false)
+    end
   end
 end
